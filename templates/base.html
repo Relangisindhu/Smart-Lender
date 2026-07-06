@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Smart Lender{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <header class="sl-navbar">
+        <div class="sl-navbar-inner">
+            <a href="{{ url_for('home') }}" class="sl-brand">
+                <span class="sl-brand-icon">S</span>
+                <span class="sl-brand-text">Smart<strong>Lender</strong></span>
+            </a>
+            <nav class="sl-nav-links">
+                <a href="{{ url_for('home') }}">Dashboard</a>
+                <a href="{{ url_for('predict_form') }}" class="sl-nav-cta">New Application</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="sl-main">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="sl-flash-wrap">
+                    {% for message in messages %}
+                        <div class="sl-flash">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="sl-footer">
+        <p>Smart Lender &mdash; ML-Powered Credit Risk Assessment Platform. Built for demonstration &amp; educational purposes.</p>
+    </footer>
+</body>
+</html>

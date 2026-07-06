@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% block title %}Smart Lender — New Application{% endblock %}
+
+{% block content %}
+<section class="sl-form-section">
+    <div class="sl-form-header">
+        <h1>Loan Applicant Assessment</h1>
+        <p>Enter the applicant's details below. All fields are required for an accurate prediction.</p>
+    </div>
+
+    <form action="{{ url_for('predict') }}" method="POST" class="sl-form" id="loanForm" novalidate>
+        <div class="sl-form-grid">
+
+            <div class="sl-form-group">
+                <label for="gender">Gender</label>
+                <select name="gender" id="gender" required>
+                    <option value="" disabled selected>Select gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            </div>
+
+            <div class="sl-form-group">
+                <label for="married">Marital Status</label>
+                <select name="married" id="married" required>
+                    <option value="" disabled selected>Select status</option>
+                    <option value="Yes">Married</option>
+                    <option value="No">Single</option>
+                </select>
+            </div>
+
+            <div class="sl-form-group">
+                <label for="dependents">Dependents</label>
+                <select name="dependents" id="dependents" required>
+                    <option value="" disabled selected>Select dependents</option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3+">3 or more</option>
+                </select>
+            </div>
+
+            <div class="sl-form-group">
+                <label for="education">Education</label>
+                <select name="education" id="education" required>
+                    <option value="" disabled selected>Select education</option>
+                    <option value="Graduate">Graduate</option>
+                    <option value="Not Graduate">Not Graduate</option>
+                </select>
+            </div>
+
+            <div class="sl-form-group">
+                <label for="self_employed">Employment Status</label>
+                <select name="self_employed" id="self_employed" required>
+                    <option value="" disabled selected>Select employment</option>
+                    <option value="No">Salaried</option>
+                    <option value="Yes">Self-Employed</option>
+                </select>
+            </div>
+
+            <div class="sl-form-group">
+                <label for="property_area">Property Area</label>
+                <select name="property_area" id="property_area" required>
+                    <option value="" disabled selected>Select area</option>
+                    <option value="Urban">Urban</option>
+                    <option value="Semiurban">Semiurban</option>
+                    <option value="Rural">Rural</option>
+                </select>
+            </div>
+
+            <div class="sl-form-group">
+                <label for="applicant_income">Applicant Monthly Income ($)</label>
+                <input type="number" name="applicant_income" id="applicant_income" min="0" step="1" placeholder="e.g. 5000" required>
+            </div>
+
+            <div class="sl-form-group">
+                <label for="coapplicant_income">Co-applicant Monthly Income ($)</label>
+                <input type="number" name="coapplicant_income" id="coapplicant_income" min="0" step="1" placeholder="e.g. 1500" required>
+            </div>
+
+            <div class="sl-form-group">
+                <label for="loan_amount">Loan Amount (in thousands, $)</label>
+                <input type="number" name="loan_amount" id="loan_amount" min="1" step="1" placeholder="e.g. 150" required>
+            </div>
+
+            <div class="sl-form-group">
+                <label for="loan_term">Loan Term (months)</label>
+                <select name="loan_term" id="loan_term" required>
+                    <option value="" disabled selected>Select term</option>
+                    <option value="360">360 (30 years)</option>
+                    <option value="300">300 (25 years)</option>
+                    <option value="240">240 (20 years)</option>
+                    <option value="180">180 (15 years)</option>
+                    <option value="120">120 (10 years)</option>
+                    <option value="84">84 (7 years)</option>
+                    <option value="60">60 (5 years)</option>
+                    <option value="36">36 (3 years)</option>
+                </select>
+            </div>
+
+            <div class="sl-form-group">
+                <label for="credit_history">Credit History</label>
+                <select name="credit_history" id="credit_history" required>
+                    <option value="" disabled selected>Select credit history</option>
+                    <option value="1.0">Good (meets guidelines)</option>
+                    <option value="0.0">Poor (does not meet guidelines)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="sl-form-actions">
+            <button type="submit" class="sl-btn sl-btn-primary sl-btn-lg">Run Prediction &rarr;</button>
+        </div>
+    </form>
+</section>
+
+<script>
+document.getElementById('loanForm').addEventListener('submit', function (e) {
+    let valid = true;
+    const requiredFields = this.querySelectorAll('[required]');
+    requiredFields.forEach(function (field) {
+        field.classList.remove('sl-input-error');
+        if (!field.value) {
+            valid = false;
+            field.classList.add('sl-input-error');
+        }
+    });
+
+    const income = parseFloat(document.getElementById('applicant_income').value);
+    const loanAmount = parseFloat(document.getElementById('loan_amount').value);
+    if (isNaN(income) || income < 0) {
+        valid = false;
+        document.getElementById('applicant_income').classList.add('sl-input-error');
+    }
+    if (isNaN(loanAmount) || loanAmount <= 0) {
+        valid = false;
+        document.getElementById('loan_amount').classList.add('sl-input-error');
+    }
+
+    if (!valid) {
+        e.preventDefault();
+        alert('Please fill in all fields with valid values before submitting.');
+    }
+});
+</script>
+{% endblock %}

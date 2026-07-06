@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Smart Lender — Result{% endblock %}
+
+{% block content %}
+<section class="sl-result-section">
+    <div class="sl-result-card {{ 'sl-result-approved' if result.approved else 'sl-result-rejected' }}">
+        <div class="sl-result-icon">
+            {% if result.approved %}&#10003;{% else %}&#10007;{% endif %}
+        </div>
+        <h1>{{ result.status_text }}</h1>
+        <p class="sl-result-confidence">Model Confidence: <strong>{{ result.confidence }}%</strong></p>
+
+        <div class="sl-confidence-bar-wrap">
+            <div class="sl-confidence-bar" style="width: {{ result.confidence }}%;"></div>
+        </div>
+    </div>
+
+    <div class="sl-breakdown">
+        <h2>Submitted Applicant Details</h2>
+        <div class="sl-breakdown-grid">
+            <div class="sl-breakdown-item">
+                <span class="sl-breakdown-label">Gender</span>
+                <span class="sl-breakdown-value">{{ result.inputs.Gender }}</span>
+            </div>
+            <div class="sl-breakdown-item">
+                <span class="sl-breakdown-label">Marital Status</span>
+                <span class="sl-breakdown-value">{{ 'Married' if result.inputs.Married == 'Yes' else 'Single' }}</span>
+            </div>
+            <div class="sl-breakdown-item">
+                <span class="sl-breakdown-label">Dependents</span>
+                <span class="sl-breakdown-value">{{ result.inputs.Dependents }}</span>
+            </div>
+            <div class="sl-breakdown-item">
+                <span class="sl-breakdown-label">Education</span>
+                <span class="sl-breakdown-value">{{ result.inputs.Education }}</span>
+            </div>
+            <div class="sl-breakdown-item">
+                <span class="sl-breakdown-label">Employment</span>
+                <span class="sl-breakdown-value">{{ 'Self-Employed' if result.inputs.Self_Employed == 'Yes' else 'Salaried' }}</span>
+            </div>
+            <div class="sl-breakdown-item">
+                <span class="sl-breakdown-label">Property Area</span>
+                <span class="sl-breakdown-value">{{ result.inputs.Property_Area }}</span>
+            </div>
+            <div class="sl-breakdown-item">
+                <span class="sl-breakdown-label">Applicant Income</span>
+                <span class="sl-breakdown-value">${{ '%.0f'|format(result.inputs.ApplicantIncome) }}/mo</span>
+            </div>
+            <div class="sl-breakdown-item">
+                <span class="sl-breakdown-label">Co-applicant Income</span>
+                <span class="sl-breakdown-value">${{ '%.0f'|format(result.inputs.CoapplicantIncome) }}/mo</span>
+            </div>
+            <div class="sl-breakdown-item">
+                <span class="sl-breakdown-label">Loan Amount</span>
+                <span class="sl-breakdown-value">${{ '%.0f'|format(result.inputs.LoanAmount) }}k</span>
+            </div>
+            <div class="sl-breakdown-item">
+                <span class="sl-breakdown-label">Loan Term</span>
+                <span class="sl-breakdown-value">{{ '%.0f'|format(result.inputs.Loan_Amount_Term) }} months</span>
+            </div>
+            <div class="sl-breakdown-item">
+                <span class="sl-breakdown-label">Credit History</span>
+                <span class="sl-breakdown-value">{{ 'Good' if result.inputs.Credit_History == 1.0 else 'Poor' }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="sl-result-actions">
+        <a href="{{ url_for('predict_form') }}" class="sl-btn sl-btn-primary">Assess Another Application</a>
+        <a href="{{ url_for('home') }}" class="sl-btn sl-btn-secondary">Back to Dashboard</a>
+    </div>
+</section>
+{% endblock %}

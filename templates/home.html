@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}Smart Lender — Home{% endblock %}
+
+{% block content %}
+<section class="sl-hero">
+    <div class="sl-hero-text">
+        <span class="sl-eyebrow">ML-Powered Credit Decisioning</span>
+        <h1>Predict Loan Creditworthiness with Confidence</h1>
+        <p>
+            Smart Lender uses a tuned XGBoost model trained on applicant demographics,
+            income profile and credit history to instantly estimate loan approval likelihood
+            &mdash; helping institutions make faster, data-driven lending decisions.
+        </p>
+        <a href="{{ url_for('predict_form') }}" class="sl-btn sl-btn-primary sl-btn-lg">
+            Start New Loan Assessment &rarr;
+        </a>
+    </div>
+    <div class="sl-hero-metrics">
+        <div class="sl-metric-card">
+            <span class="sl-metric-value">{{ train_acc }}%</span>
+            <span class="sl-metric-label">Training Accuracy</span>
+        </div>
+        <div class="sl-metric-card">
+            <span class="sl-metric-value">{{ test_acc }}%</span>
+            <span class="sl-metric-label">Testing Accuracy</span>
+        </div>
+        <div class="sl-metric-card">
+            <span class="sl-metric-value">XGBoost</span>
+            <span class="sl-metric-label">Production Model</span>
+        </div>
+    </div>
+</section>
+
+<section class="sl-personas">
+    <h2>Built for Every Stakeholder in the Lending Process</h2>
+    <div class="sl-card-grid">
+        <div class="sl-card">
+            <div class="sl-card-icon sl-icon-blue">&#128100;</div>
+            <h3>Loan Applicant</h3>
+            <p>Submit your details and instantly understand your estimated approval likelihood before formally applying, with a transparent breakdown of the factors considered.</p>
+        </div>
+        <div class="sl-card">
+            <div class="sl-card-icon sl-icon-purple">&#128188;</div>
+            <h3>Credit Officer</h3>
+            <p>Accelerate underwriting with a consistent, data-driven second opinion that flags risk factors early and standardizes decision-making across applications.</p>
+        </div>
+        <div class="sl-card">
+            <div class="sl-card-icon sl-icon-teal">&#128202;</div>
+            <h3>Financial Analyst</h3>
+            <p>Review model confidence scores and applicant risk profiles to spot portfolio-level trends in approval rates, income bands, and credit history impact.</p>
+        </div>
+    </div>
+</section>
+
+<section class="sl-pipeline">
+    <h2>How the Prediction Pipeline Works</h2>
+    <div class="sl-steps">
+        <div class="sl-step">
+            <span class="sl-step-num">1</span>
+            <h4>Data Intake</h4>
+            <p>Gender, marital status, education, employment, income, loan amount/term, credit history and property area.</p>
+        </div>
+        <div class="sl-step">
+            <span class="sl-step-num">2</span>
+            <h4>Preprocessing</h4>
+            <p>Missing value imputation, categorical encoding, outlier capping, SMOTE balancing and feature scaling.</p>
+        </div>
+        <div class="sl-step">
+            <span class="sl-step-num">3</span>
+            <h4>Model Inference</h4>
+            <p>A tuned XGBoost classifier (benchmarked against Decision Tree, Random Forest and KNN) scores the application.</p>
+        </div>
+        <div class="sl-step">
+            <span class="sl-step-num">4</span>
+            <h4>Decision Output</h4>
+            <p>Approval / rejection outcome with a confidence percentage and a breakdown of submitted factors.</p>
+        </div>
+    </div>
+    <div class="sl-cta-banner">
+        <div>
+            <h3>Ready to assess a loan application?</h3>
+            <p>Fill out the applicant form and get an instant, model-backed decision.</p>
+        </div>
+        <a href="{{ url_for('predict_form') }}" class="sl-btn sl-btn-light">Go to Prediction Form</a>
+    </div>
+</section>
+{% endblock %}
