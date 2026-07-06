@@ -1,0 +1,28 @@
+# Trained model artifact (regenerate with: python train_model.py)
+model.pkl
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Virtual environments
+venv/
+env/
+.venv/
+ENV/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Flask
+instance/
+.flaskenv
+
+# Logs
+*.log
